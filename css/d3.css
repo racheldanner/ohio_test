@@ -1,0 +1,10 @@
+body {
+	background-color: purple;
+}
+
+.bar {
+	fill: white;
+	display: inline-block;
+	width: 20px;
+	margin-right: 2px;
+}
