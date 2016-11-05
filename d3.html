@@ -16,23 +16,51 @@
 
 	<script type="text/javascript">
 
-		var dataset = _.map(_.range(150), function(i){
+		var dataset = _.map(_.range(10), function(i){
 			return Math.random() * 50;
 		});
 
-		var w = 1200, h = 600;
+		var margin = {top: 30, right: 0, bottom: 40, left: 50};
+
+		var w = 600 - margin.left - margin.right,
+			h = 400 - margin.top - margin.bottom;
 
 		var svg = d3.select('#chartArea').append('svg')
-			.attr('width', w)
-			.attr('height', h);
+			.attr('width', w + margin.left + margin.right)
+			.attr('height', h + margin.top + margin.bottom)
+			.append('g')
+			.attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')' );
 
 		var xScale = d3.scale.ordinal()
 			.domain(dataset)
 			.rangeBands([0, w], 0.5, 0.3);
 
+		var xAxis = d3.svg.axis()
+			.scale(xScale)
+			.orient('bottom')
+			.ticks(5);
+
+		svg.append('g')
+		.attr('class', 'x axis')
+		.attr('transform', 'translate(0, ' + (h+20) + ')' )
+		.call(xAxis);
+
 		var yScale = d3.scale.linear()
-			.domain([0, d3.max(dataset)])
-			.range([0, h]);
+			.domain([0, 100])
+			.range([h, 0]);
+
+		var yAxis = d3.svg.axis()
+			.scale(yScale)
+			.orient('left')
+		
+		svg.append('g')
+		.attr('class', 'y axis')
+		.attr('transform', 'translate(-20, 0)')
+		.call(yAxis);
+
+		var colorScale = d3.scale.quantile()
+			.domain([0, dataset.length / 4, dataset.length])
+			.range(['pink', 'green']);
 
 		var multiplier = 5;
 
@@ -49,8 +77,12 @@
 			})
 			.attr('width', xScale.rangeBand)
 			.style('height', function(d){
-				return yScale(d)
+				return yScale(d);
+			})
+			.attr('fill', function(d, i){
+				return colorScale(i);
 			});
+
 
 
 </script>

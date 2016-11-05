@@ -1,10 +1,16 @@
 body {
-	background-color: purple;
+	background-color: white;
 }
 
 .bar {
-	fill: white;
+	/*fill: white;*/
 	display: inline-block;
 	/*width: 20px;//*/
 	margin-right: 2px;
+}
+
+.axis path, .axis line {
+	strokes: #000
+	stroke-width: 1px
+	shape-rendering: crispEdges;
 }
